@@ -222,16 +222,18 @@ function plugins() {
   }
 
   if (copyFiles) {
+    const copyFilesConfig = {
+      patterns: copyFiles.map(function(data) {
+        return {
+          to: data.to,
+          context: servicePath,
+          from: path.join(servicePath, data.from)
+        };
+      })
+    };
+      
     plugins.push(
-      new CopyWebpackPlugin(
-        copyFiles.map(function(data) {
-          return {
-            to: data.to,
-            context: servicePath,
-            from: path.join(servicePath, data.from)
-          };
-        })
-      )
+      new CopyWebpackPlugin(copyFilesConfig)
     );
   }
 
